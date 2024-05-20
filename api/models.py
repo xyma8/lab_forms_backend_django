@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.contrib.auth.hashers import make_password
 
 
 class User(models.Model):
@@ -21,5 +22,7 @@ class User(models.Model):
     def save(self, *args, **kwargs):
         if not self.token:
             self.token = self.generate_token()
+        if not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
         super().save(*args, **kwargs)
 

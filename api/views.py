@@ -5,6 +5,7 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from .serializers import AuthSerializer
 
 
 class UserList(generics.ListCreateAPIView):
@@ -18,4 +19,13 @@ class UserSignup(APIView):
         if serializer.is_valid():
             user = serializer.save()  # Это вызовет метод save() модели, который сгенерирует токен
             return Response({'id': user.id, 'token': user.token}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserLogin(APIView):
+    def post(self, request):
+        serializer = AuthSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            return Response({'id': user.id, 'token': user.token}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
