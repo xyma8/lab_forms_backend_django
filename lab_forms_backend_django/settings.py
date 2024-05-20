@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from corsheaders.defaults import default_headers
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
@@ -49,9 +52,21 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# Настройка разрешения заголовков для запросов
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'TokenAuth',
 ]
 
 ROOT_URLCONF = "lab_forms_backend_django.urls"
+
+RECAPTCHA_SECRET_KEY = "6LfLkJUpAAAAACH38olngW2b1rTUpA15QYMFjcn7"
 
 TEMPLATES = [
     {

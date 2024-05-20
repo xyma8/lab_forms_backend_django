@@ -39,3 +39,15 @@ class AuthSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
+
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['login', 'name']
+
+
+class UserThemeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['darktheme']
